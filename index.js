@@ -3,19 +3,19 @@ const AWS = require("aws-sdk");
 const fs = require("fs");
 const moment = require("moment");
 
-// const DIR = "/home/pi/motion";
-const DIR = "/Users/ollyfg/Desktop";
+const DIR = "/home/pi/motion";
+// const DIR = "/Users/ollyfg/Desktop";
 
 async function cleanup() {
   console.log("fn.cleanup");
   try {
-    const videoFiles = fs.readdirSync(`${DIR}/videos`);
+    const videoFiles = fs.readdirSync(`${DIR}/video`);
     const toDelete = videoFiles.filter(filename => {
       const time = moment(filename, "YYYY-MM-DDTHH:mm:ss[.mp4]").toISOString();
       return time < moment().subtract(24, "hours").toISOString();
     });
     toDelete.forEach(filename => {
-      fs.unlinkSync(`${DIR}/videos/${filename}`);
+      fs.unlinkSync(`${DIR}/video/${filename}`);
     });
     console.log("fn.cleanup.success");
   } catch (error) {
